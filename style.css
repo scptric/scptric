@@ -1,14 +1,18 @@
-/* ========== Global Variables ========== */
+/* Scptric Website Styles */
+
+/* 1. Resets and Variables */
 :root {
     --background-color: #050505;
-    --text-color: #ffffff;
+    /* Near black for depth */
+    --text-color: #FFFFFF;
     --accent-color: #00BFFF;
+    /* Electric Blue */
     --secondary-bg-color: #111111;
+    /* Slightly lighter dark for contrast */
     --font-primary: 'Space Grotesk', sans-serif;
     --transition-speed: 0.3s;
 }
 
-/* ========== Reset ========== */
 * {
     margin: 0;
     padding: 0;
@@ -25,16 +29,20 @@ body {
     color: var(--text-color);
     line-height: 1.6;
     overflow-x: hidden;
+    /* Prevent horizontal scroll */
 }
 
-/* ========== Typography ========== */
-h1, h2, h3 {
+/* 2. Global Styles */
+h1,
+h2,
+h3 {
     font-weight: 500;
+    /* Adjust weight as needed */
     margin-bottom: 1rem;
 }
 
 h1 {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
 }
 
 h2 {
@@ -49,11 +57,13 @@ p {
 a {
     color: var(--accent-color);
     text-decoration: none;
-    transition: color var(--transition-speed);
+    transition: color var(--transition-speed) ease;
 }
 
-a:hover {
+a:hover,
+a:focus {
     color: #009acd;
+    /* Darker blue for hover */
 }
 
 ul {
@@ -62,16 +72,19 @@ ul {
 
 img {
     max-width: 100%;
+    height: auto;
     display: block;
 }
 
-/* ========== Header and Nav ========== */
+/* 3. Layout & Sections */
 header {
     position: fixed;
+    /* Sticky header */
     top: 0;
     left: 0;
     width: 100%;
     background-color: rgba(5, 5, 5, 0.85);
+    /* Semi-transparent background */
     backdrop-filter: blur(10px);
     z-index: 1000;
     padding: 1rem 5%;
@@ -86,45 +99,41 @@ nav {
 
 .logo img {
     height: 40px;
+    /* Adjust as needed */
 }
 
-.nav-links {
+nav ul {
     display: flex;
-    gap: 2rem;
 }
 
-.nav-links a {
+nav ul li {
+    margin-left: 2rem;
+}
+
+nav ul li a {
     color: var(--text-color);
     font-weight: 500;
-    border-bottom: 2px solid transparent;
     padding-bottom: 0.5rem;
-    transition: border-color var(--transition-speed), color var(--transition-speed);
+    border-bottom: 2px solid transparent;
+    transition: border-color var(--transition-speed) ease, color var(--transition-speed) ease;
 }
 
-.nav-links a:hover,
-.nav-links a.active {
+nav ul li a:hover,
+nav ul li a:focus,
+nav ul li a.active {
     color: var(--accent-color);
     border-bottom-color: var(--accent-color);
 }
 
-.menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 2rem;
-    color: var(--text-color);
-    cursor: pointer;
-}
-
-/* ========== Main Layout ========== */
 main {
-    padding-top: 90px;
+    padding-top: 80px;
+    /* Adjust based on header height */
 }
 
-.content-section, .page-title-section {
+.content-section {
     padding: 4rem 10%;
     max-width: 1200px;
-    margin: auto;
+    margin: 0 auto;
 }
 
 .alternate-bg {
@@ -132,27 +141,44 @@ main {
 }
 
 .page-title-section {
+    padding: 4rem 10%;
     text-align: center;
+    background-color: var(--secondary-bg-color);
 }
 
-/* ========== Hero Section ========== */
+.page-title-section h1 {
+    margin-bottom: 0.5rem;
+}
+
+footer {
+    text-align: center;
+    padding: 2rem 5%;
+    margin-top: 3rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* 4. Hero Section */
 #hero {
     position: relative;
-    height: 75vh;
+    height: 62vh;
+    /* Adjust height as needed */
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 0 1.5rem;
     overflow: hidden;
+    /* Contain particles */
+    padding: 0 5%;
 }
 
 #particles-js {
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
+    top: 0;
+    left: 0;
     z-index: 1;
 }
 
@@ -160,106 +186,86 @@ main {
     position: relative;
     z-index: 2;
     max-width: 800px;
-    margin: auto;
 }
 
 .hero-content h1 {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
     margin-bottom: 1rem;
     font-weight: 700;
+    border-right: 2px solid var(--accent-color);
     white-space: nowrap;
     overflow: hidden;
-    border-right: 2px solid var(--accent-color);
-    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+    animation: typing 3.5s steps(40, end),
+        blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+@keyframes blink-caret {
+
+    from,
+    to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: var(--accent-color)
+    }
 }
 
 .hero-content p {
     font-size: 1.2rem;
-    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+    color: rgba(255, 255, 255, 0.85);
     opacity: 0;
     animation: fadeIn 1s ease-in forwards;
     animation-delay: 3.5s;
 }
 
-@keyframes typing {
-    from { width: 0; }
-    to { width: 100%; }
-}
-
-@keyframes blink-caret {
-    0%, 100% { border-color: transparent; }
-    50% { border-color: var(--accent-color); }
-}
-
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
+    from {
+        opacity: 0;
+    }
 
-/* ========== Footer ========== */
-footer {
-    text-align: center;
-    padding: 2rem 5%;
-    margin-top: 3rem;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* ========== Responsive Media Queries ========== */
-@media (max-width: 1024px) {
-    .content-section {
-        padding: 3rem 5%;
+    to {
+        opacity: 1;
     }
 }
 
+
+/* 5. Responsive Design */
 @media (max-width: 768px) {
-    .menu-toggle {
-        display: block;
+    h1 {
+        font-size: 2.2rem;
     }
 
-    .nav-links {
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+
+    nav ul {
+        /* Basic mobile menu setup - needs JS for toggle */
         display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        flex-direction: column;
-        background-color: var(--secondary-bg-color);
-        text-align: center;
-        padding: 1rem 0;
-        gap: 1rem;
+        /* Hide by default on small screens */
+        /* Add styles for mobile menu appearance when toggled */
     }
 
-    .nav-links.active {
-        display: flex;
-    }
+    /* Add mobile menu toggle button style */
 
-    .hero-content h1 {
-        font-size: 2rem;
-        white-space: normal;
-        border: none;
-        animation: none;
-    }
-
-    .hero-content p {
-        font-size: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    h1 { font-size: 1.8rem; }
-    h2 { font-size: 1.5rem; }
-
-    .content-section, .page-title-section {
-        padding: 2rem 1rem;
-    }
-
-    .hero-content h1 {
-        font-size: 1.6rem;
-    }
-
-    .hero-content p {
-        font-size: 0.95rem;
+    .content-section,
+    .page-title-section {
+        padding: 3rem 5%;
     }
 }

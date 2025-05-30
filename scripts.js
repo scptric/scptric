@@ -1,75 +1,115 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // === Particles.js Config ===
+    // --- Particles.js Configuration --- 
     if (document.getElementById('particles-js')) {
         particlesJS('particles-js', {
-            particles: {
-                number: { value: 80, density: { enable: true, value_area: 800 } },
-                color: { value: "#ffffff" },
-                shape: { type: "circle" },
-                opacity: {
-                    value: 0.6,
-                    anim: { enable: false }
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
                 },
-                size: {
-                    value: 3,
-                    random: true,
-                    anim: { enable: false }
+                "color": {
+                    "value": "#ffffff"
                 },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: "#ffffff",
-                    opacity: 0.3,
-                    width: 1
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    }
                 },
-                move: {
-                    enable: true,
-                    speed: 2,
-                    out_mode: "out"
+                "opacity": {
+                    "value": 0.6,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.3,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
                 }
             },
-            interactivity: {
-                detect_on: "canvas",
-                events: {
-                    onhover: { enable: true, mode: "grab" },
-                    onclick: { enable: true, mode: "push" },
-                    resize: true
-                },
-                modes: {
-                    grab: {
-                        distance: 140,
-                        line_linked: { opacity: 0.7 }
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
                     },
-                    push: { particles_nb: 4 }
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 0.7
+                        }
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    }
                 }
             },
-            retina_detect: true
+            "retina_detect": true
         });
     }
 
-    // === Typing Effect ===
+    // --- Typing Effect Setup ---
     const heroTitle = document.querySelector('.hero-content h1');
     if (heroTitle) {
-        const originalText = "Scptric is Launching Soon ....";
-        let i = 0;
-        heroTitle.textContent = "";
-        const typeInterval = setInterval(() => {
-            if (i < originalText.length) {
-                heroTitle.textContent += originalText[i];
-                i++;
-            } else {
-                clearInterval(typeInterval);
-            }
-        }, 100);
-    }
+        const originalText = heroTitle.textContent;
+        heroTitle.textContent = '';
 
-    // === Mobile Nav Toggle ===
-    const toggle = document.querySelector('.menu-toggle');
-    const nav = document.querySelector('.nav-links');
+        function typeText(element, text, speed = 100) {
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, speed);
+        }
 
-    if (toggle && nav) {
-        toggle.addEventListener('click', () => {
-            nav.classList.toggle('active');
-        });
+        typeText(heroTitle, originalText, 100);
     }
 });
+
