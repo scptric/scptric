@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- Typing Effect Setup ---
     const heroTitle = document.querySelector('.hero-content h1');
     const heroContent = document.querySelector('.hero-content');
-    
+
     if (heroTitle && heroContent) {
         // Add coming soon message
         const comingSoon = document.createElement('div');
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Store the original text
         const originalText = heroTitle.textContent;
-        
+
         function typeText(element, text, speed = 100) {
             return new Promise((resolve) => {
                 let i = 0;
