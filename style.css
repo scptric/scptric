@@ -205,25 +205,6 @@ footer {
     margin-bottom: 1rem;
     font-weight: 700;
     text-align: center;
-    position: relative;
-    display: inline-block;
-}
-
-.hero-content h1::after {
-    content: '';
-    position: absolute;
-    right: -5px;
-    top: 0;
-    height: 100%;
-    width: 2px;
-    background-color: var(--accent-color);
-    animation: blink 0.75s step-end infinite;
-}
-
-@keyframes blink {
-    50% {
-        opacity: 0;
-    }
 }
 
 .hero-content p {
