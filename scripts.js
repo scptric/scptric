@@ -93,23 +93,46 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- Typing Effect Setup ---
     const heroTitle = document.querySelector('.hero-content h1');
-    if (heroTitle) {
-        const originalText = heroTitle.textContent;
-        heroTitle.textContent = '';
+    const heroContent = document.querySelector('.hero-content');
+    
+    if (heroTitle && heroContent) {
+        // Add coming soon message
+        const comingSoon = document.createElement('div');
+        comingSoon.className = 'coming-soon';
+        comingSoon.textContent = 'Coming Soon';
+        heroContent.appendChild(comingSoon);
 
+        // Store the original text
+        const originalText = heroTitle.textContent;
+        
         function typeText(element, text, speed = 100) {
-            let i = 0;
-            const interval = setInterval(() => {
-                if (i < text.length) {
-                    element.textContent += text.charAt(i);
-                    i++;
-                } else {
-                    clearInterval(interval);
-                }
-            }, speed);
+            return new Promise((resolve) => {
+                let i = 0;
+                element.textContent = '';
+                const interval = setInterval(() => {
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i);
+                        i++;
+                    } else {
+                        clearInterval(interval);
+                        resolve();
+                    }
+                }, speed);
+            });
         }
 
-        typeText(heroTitle, originalText, 100);
+        async function startTypingEffect() {
+            while (true) {
+                await typeText(heroTitle, originalText, 100);
+                await new Promise(resolve => setTimeout(resolve, 5000)); // Wait 5 seconds
+                heroTitle.style.animation = 'none';
+                heroTitle.offsetHeight; // Trigger reflow
+                heroTitle.style.animation = 'typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite';
+            }
+        }
+
+        // Start the typing effect
+        startTypingEffect();
     }
 });
 
