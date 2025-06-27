@@ -94,48 +94,6 @@ header {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 5%;
-}
-
-.logo img {
-    height: 40px;
-}
-
-nav ul {
-    display: flex;
-    gap: 1rem;
-    margin: 0;
-    padding: 0;
-}
-
-nav ul li {
-    margin-left: clamp(1rem, 2vw, 2rem);
-}
-
-nav ul li a {
-    color: var(--text-color);
-    font-weight: 500;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid transparent;
-    transition: border-color var(--transition-speed) ease, color var(--transition-speed) ease;
-    font-size: 1rem;
-    white-space: nowrap;
-}
-
-nav ul li a:hover,
-nav ul li a:focus,
-nav ul li a.active {
-    color: var(--accent-color);
-    border-bottom-color: var(--accent-color);
-}
-
 main {
     flex: 1;
     position: relative;
@@ -160,19 +118,6 @@ main {
 
 .page-title-section h1 {
     margin-bottom: 0.5rem;
-}
-
-footer {
-    text-align: center;
-    height: 85px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
-    background-color: rgba(5, 5, 5, 0.85);
 }
 
 /* 4. Hero Section */
