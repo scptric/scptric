@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // --- Particles.js Configuration --- 
+    // --- Particles.js Configuration ---
     if (document.getElementById('particles-js')) {
         particlesJS('particles-js', {
             "particles": {
@@ -115,13 +115,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         async function startTypingEffect() {
-            while (true) {
-                await typeText(heroTitle, originalText, 100);
-                await new Promise(resolve => setTimeout(resolve, 6000)); // Wait 6 seconds
-                heroTitle.style.animation = 'none';
-                heroTitle.offsetHeight; // Trigger reflow
-                heroTitle.style.animation = 'typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite';
-            }
+            // Run typing effect only once at the beginning
+            await typeText(heroTitle, originalText, 100);
         }
 
         // Start the typing effect
