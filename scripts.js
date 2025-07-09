@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- Typing Effect Setup ---
     const heroTitle = document.querySelector('.hero-content h1');
+    const heroParagraph = document.querySelector('.hero-content p');
 
     if (heroTitle) {
         // Store the original text
@@ -115,8 +116,19 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         async function startTypingEffect() {
-            // Run typing effect only once at the beginning
+            // Hide paragraph initially
+            if (heroParagraph) {
+                heroParagraph.style.opacity = '0';
+                heroParagraph.style.animation = 'none';
+            }
+
+            // Run typing effect
             await typeText(heroTitle, originalText, 100);
+
+            // Show paragraph after typing completes
+            if (heroParagraph) {
+                heroParagraph.style.animation = 'fadeIn 1s ease-in forwards';
+            }
         }
 
         // Start the typing effect
