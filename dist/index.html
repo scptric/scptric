@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scptric | Intelligent Systems</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/icon-A92hrzUX.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Space Grotesk"', 'sans-serif'],
+              mono: ['"Space Mono"', 'monospace'], // Fallback if needed
+            },
+            colors: {
+              scptric: {
+                black: '#050505',
+                white: '#F0F0F0',
+                blue: '#0057d9',
+              },
+            },
+            boxShadow: {
+              'neo': '6px 6px 0px 0px #0057d9',
+              'neo-hover': '2px 2px 0px 0px #0057d9',
+              'neo-white': '6px 6px 0px 0px #FFFFFF',
+            }
+          },
+        },
+      };
+    </script>
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background-color: #050505;
+        color: #F0F0F0;
+        overflow-x: hidden;
+      }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 12px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #050505;
+        border-left: 2px solid #333;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #0057d9;
+        border: 2px solid #050505;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #FFFFFF;
+      }
+      
+      /* Neo-Brutalist Utilities */
+      .stroke-text-white {
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+        color: transparent;
+      }
+      
+      /* Marquee Animation */
+      @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+      
+      .animate-marquee {
+        animation: marquee 40s linear infinite;
+      }
+      .animate-marquee-reverse {
+        animation: marquee 40s linear infinite reverse;
+      }
+    </style>
+
+<link rel="stylesheet" href="/index.css">
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0"
+  }
+}
+</script>
+  <script type="module" crossorigin src="/assets/index-DpaJUFYJ.js"></script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
