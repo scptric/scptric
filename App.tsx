@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, X, LayoutGrid, Users, CreditCard, TrendingUp, ArrowRight, Layers, Server, Box, Check } from 'lucide-react';
 import { NeoButton } from './components/NeoButton';
+import logo from './assets/logo.svg?url';
 
 const App: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,15 +14,9 @@ const App: React.FC = () => {
       {/* Navigation */}
       <nav className="fixed top-0 left-0 w-full z-50 bg-scptric-black border-b-2 border-white">
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            {/* Inlined SVG Logo */}
-            <svg viewBox="0 0 32 32" className="w-12 h-12 fill-white" xmlns="http://www.w3.org/2000/svg">
-              <rect x="2.4" y="8.9" width="17.1" height="3.2" transform="translate(-4.2 10.9) rotate(-45)"/>
-              <rect x="2.2" y="19.8" width="17.1" height="3.2" transform="translate(-11.9 13.9) rotate(-45)"/>
-              <polygon points="26.3 3.3 18.6 11 24.1 16.4 14.2 26.3 16.5 28.6 28.6 16.4 23.2 11 28.6 5.5 26.3 3.3"/>
-            </svg>
-            <span className="text-3xl font-bold tracking-tighter">SCPTRIC</span>
-          </div>
+          <a href="#" className="flex items-center gap-4">
+            <img src={logo} alt="Scptric logo" className="h-12 w-auto" />
+          </a>
           
           <div className="hidden lg:flex items-center gap-8 font-bold text-lg uppercase tracking-wide">
             <a href="#solutions" className="hover:text-scptric-blue hover:underline decoration-4 underline-offset-4 decoration-scptric-blue transition-all">Capabilities</a>
