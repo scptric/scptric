@@ -286,12 +286,12 @@ const App: React.FC = () => {
                Inefficiency is a bug. We write software that optimizes your business logic, eliminating redundancy and accelerating decision-making.
              </p>
              <div className="p-6 border-2 border-white bg-black/50 backdrop-blur-sm">
-                <code className="font-mono text-green-400 text-sm block mb-2">
-                  > compiling_modules... <br/>
-                  > erp_core: integrated <br/>
-                  > crm_sync: active <br/>
-                  > deployment: success
-                </code>
+              <code className="font-mono text-green-400 text-sm block mb-2">
+                &gt; compiling_modules... <br />
+                &gt; erp_core: integrated <br />
+                &gt; crm_sync: active <br />
+                &gt; deployment: success
+              </code>
                 <div className="h-2 w-full bg-gray-800 mt-4 overflow-hidden">
                   <div className="h-full bg-white w-2/3 animate-pulse"></div>
                 </div>
