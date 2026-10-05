@@ -1,349 +1,701 @@
-import React, { useState } from 'react';
-import { Menu, X, LayoutGrid, Users, CreditCard, TrendingUp, ArrowRight, Layers, Server, Box, Check } from 'lucide-react';
-import { NeoButton } from './components/NeoButton';
-import logo from './assets/logo.svg?url';
+import React, { useEffect, useRef, useState } from "react";
+import {
+  ArrowDown,
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  Code2,
+  Database,
+  Layers3,
+  Menu,
+  Plus,
+  Printer,
+  Workflow,
+  X,
+} from "lucide-react";
+import { QimahIcon } from "./components/QimahLogo";
+import logo from "./assets/logo.svg?url";
+
+const email = "hello@scptric.com";
+const contactHref = `mailto:${email}?subject=Let%E2%80%99s%20build%20with%20Scptric`;
+const navigation = [
+  ["Capabilities", "solutions"],
+  ["Projects", "products"],
+  ["Our approach", "approach"],
+  ["Company", "about"],
+];
+const capabilities = [
+  {
+    icon: Workflow,
+    title: "Systems development",
+    description:
+      "Bring your operations together with systems designed around the way your business actually works.",
+    items: [
+      "Workflow design & automation",
+      "Internal tools & business platforms",
+      "System integration",
+    ],
+    number: "01",
+  },
+  {
+    icon: Code2,
+    title: "Software engineering",
+    description:
+      "Turn a clear idea into useful software, with thoughtful architecture and room to evolve.",
+    items: [
+      "Web applications & custom software",
+      "Backend services & APIs",
+      "Modernization & maintenance",
+    ],
+    number: "02",
+  },
+  {
+    icon: Database,
+    title: "Data engineering",
+    description:
+      "Connect scattered data and make it usable, from the first source to the decisions it supports.",
+    items: [
+      "Data pipelines & integration",
+      "Data modeling & storage",
+      "Reporting-ready datasets",
+    ],
+    number: "03",
+  },
+];
+const steps = [
+  [
+    "Understand",
+    "Start with the people, workflows, and constraints. Define the problem before choosing the technology.",
+  ],
+  [
+    "Design",
+    "Map the system, agree on priorities, and turn requirements into a practical delivery plan.",
+  ],
+  [
+    "Build & validate",
+    "Develop in focused increments, test the critical paths, and review progress together.",
+  ],
+  [
+    "Launch & evolve",
+    "Plan the rollout, document the essentials, and agree on what support and improvement look like next.",
+  ],
+];
 
 const App: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const menuButton = useRef<HTMLButtonElement>(null);
+  const [copyStatus, setCopyStatus] = useState("");
+  useEffect(() => {
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isMenuOpen) {
+        setIsMenuOpen(false);
+        menuButton.current?.focus();
+      }
+    };
+    const desktop = window.matchMedia("(min-width: 960px)");
+    const closeOnDesktop = () => {
+      if (desktop.matches) setIsMenuOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => {
+      window.removeEventListener("keydown", closeOnEscape);
+      desktop.removeEventListener("change", closeOnDesktop);
+    };
+  }, [isMenuOpen]);
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(email);
+      setCopyStatus("Email address copied.");
+    } catch {
+      setCopyStatus(`Copy this address: ${email}`);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-scptric-black text-white font-sans selection:bg-scptric-blue selection:text-white">
-      
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 w-full z-50 bg-scptric-black border-b-2 border-white">
-        <div className="container mx-auto px-4 h-20 flex items-center justify-between">
-          <a href="#" className="flex items-center gap-4">
-            <img src={logo} alt="Scptric logo" className="h-12 w-auto" />
+    <>
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+      <header className="site-header">
+        <div className="container nav-inner">
+          <a
+            href="#home"
+            aria-label="Scptric home"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            <img
+              className="logo"
+              src={logo}
+              alt="Scptric"
+              width="170"
+              height="36"
+            />
           </a>
-          
-          <div className="hidden lg:flex items-center gap-8 font-bold text-lg uppercase tracking-wide">
-            <a href="#solutions" className="hover:text-scptric-blue hover:underline decoration-4 underline-offset-4 decoration-scptric-blue transition-all">Capabilities</a>
-            <a href="#products" className="hover:text-scptric-blue hover:underline decoration-4 underline-offset-4 decoration-scptric-blue transition-all">Products</a>
-            <a href="#partners" className="hover:text-scptric-blue hover:underline decoration-4 underline-offset-4 decoration-scptric-blue transition-all">Partners</a>
-            <a href="#about" className="hover:text-scptric-blue hover:underline decoration-4 underline-offset-4 decoration-scptric-blue transition-all">Company</a>
-            <NeoButton variant="secondary" className="text-sm px-6 py-2" onClick={() => window.location.href = 'mailto:sales@scptric.dev'}>Contact Sales</NeoButton>
-          </div>
-
-          <button className="lg:hidden p-2 border-2 border-white" onClick={toggleMenu}>
-            {isMenuOpen ? <X /> : <Menu />}
+          <nav aria-label="Main navigation" className="desktop-nav">
+            {navigation.map(([label, id]) => (
+              <a key={id} href={`#${id}`}>
+                {label}
+              </a>
+            ))}
+          </nav>
+          <a className="button button-small header-cta" href="#contact">
+            Let’s talk <ArrowUpRight size={16} aria-hidden="true" />
+          </a>
+          <button
+            ref={menuButton}
+            className="menu-toggle"
+            type="button"
+            aria-label={isMenuOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-navigation"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? (
+              <X aria-hidden="true" />
+            ) : (
+              <Menu aria-hidden="true" />
+            )}
           </button>
         </div>
-        
-        {/* Mobile/Tablet Menu */}
-        {isMenuOpen && (
-          <div className="lg:hidden absolute top-20 left-0 w-full bg-scptric-black border-b-2 border-white p-6 flex flex-col gap-4 z-40 shadow-neo">
-            <a href="#solutions" className="text-xl font-bold uppercase border-2 border-white p-3 hover:bg-white hover:text-black transition-colors" onClick={toggleMenu}>Capabilities</a>
-            <a href="#products" className="text-xl font-bold uppercase border-2 border-white p-3 hover:bg-white hover:text-black transition-colors" onClick={toggleMenu}>Products</a>
-            <a href="#partners" className="text-xl font-bold uppercase border-2 border-white p-3 hover:bg-white hover:text-black transition-colors" onClick={toggleMenu}>Partners</a>
-            <a href="#about" className="text-xl font-bold uppercase border-2 border-white p-3 hover:bg-white hover:text-black transition-colors" onClick={toggleMenu}>Company</a>
-            <NeoButton className="w-full" onClick={() => { window.location.href = 'mailto:sales@scptric.dev'; toggleMenu(); }}>Contact Sales</NeoButton>
-          </div>
-        )}
-      </nav>
-
-      {/* Hero Section */}
-      <header className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden border-b-2 border-white min-h-[85vh] flex flex-col justify-center">
-        
-        {/* Background Grid */}
-        <div className="absolute inset-0 z-0 pointer-events-none opacity-20" 
-             style={{
-               backgroundImage: 'linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)', 
-               backgroundSize: '50px 50px'
-             }}>
-        </div>
-
-        {/* Marquee Backgrounds */}
-        <div className="absolute top-[10%] left-0 w-full overflow-hidden opacity-100 z-0 pointer-events-none select-none">
-           <div className="flex w-max animate-marquee">
-              {[...Array(8)].map((_, i) => (
-                <span key={i} className="text-[8rem] md:text-[10rem] lg:text-[12rem] font-bold uppercase leading-none stroke-text-white whitespace-nowrap mr-16 md:mr-32">
-                  System Logic Data
-                </span>
-              ))}
-           </div>
-        </div>
-
-        <div className="absolute bottom-[10%] left-0 w-full overflow-hidden opacity-100 z-0 pointer-events-none select-none">
-           <div className="flex w-max animate-marquee-reverse">
-              {[...Array(8)].map((_, i) => (
-                <span key={i} className="text-[8rem] md:text-[10rem] lg:text-[12rem] font-bold uppercase leading-none stroke-text-white whitespace-nowrap mr-16 md:mr-32">
-                  Deploy Scale Secure
-                </span>
-              ))}
-           </div>
-        </div>
-        
-        {/* Blue Accent Shape */}
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-scptric-blue opacity-10 -skew-x-12 transform origin-top pointer-events-none z-0 border-l-2 border-white/10"></div>
-        
-        <div className="container mx-auto px-4 relative z-10 pointer-events-none">
-          <div className="max-w-4xl pointer-events-auto">
-            <div className="inline-block bg-white text-black px-2 py-1 font-bold mb-6 border-2 border-scptric-blue transform -rotate-2 shadow-neo-hover">
-              ENTERPRISE GRADE SOLUTIONS
-            </div>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-none mb-6 uppercase tracking-tight">
-              Smart Software <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">For Complex</span> <br/>
-              <span className="bg-scptric-blue text-white px-2">Business</span>
-            </h1>
-            <p className="text-xl md:text-2xl mb-10 max-w-2xl leading-relaxed border-l-4 border-scptric-blue pl-6 bg-black/50 backdrop-blur-sm py-2">
-              Scptric engineers high-performance ERP, CRM, and POS systems. We build the digital backbone of modern commerce.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6">
-              <NeoButton onClick={() => window.location.href = '#products'}>
-                View Products
-              </NeoButton>
-              <NeoButton variant="outline" onClick={() => window.location.href = '#solutions'}>
-                Explore Modules
-              </NeoButton>
-            </div>
-          </div>
-        </div>
+        <nav
+          id="mobile-navigation"
+          className="mobile-nav"
+          aria-label="Mobile navigation"
+          hidden={!isMenuOpen}
+        >
+          {navigation.map(([label, id]) => (
+            <a key={id} href={`#${id}`} onClick={() => setIsMenuOpen(false)}>
+              {label}
+              <ArrowUpRight size={18} aria-hidden="true" />
+            </a>
+          ))}
+          <a href="#contact" onClick={() => setIsMenuOpen(false)}>
+            Let’s talk
+            <ArrowUpRight size={18} aria-hidden="true" />
+          </a>
+        </nav>
       </header>
-
-      {/* Core Capabilities Section - Added scroll-mt-28 for nav offset */}
-      <section id="solutions" className="py-20 bg-white text-black relative scroll-mt-28">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-end mb-16 border-b-4 border-black pb-4">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase">Core Capabilities</h2>
-            <ArrowRight className="w-12 h-12 hidden md:block" />
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { 
-                icon: <LayoutGrid className="w-10 h-10" />, 
-                title: "Integration", 
-                desc: "Seamlessly unify supply chain, manufacturing, and logistics data into one source of truth." 
-              },
-              { 
-                icon: <Users className="w-10 h-10" />, 
-                title: "Intelligence", 
-                desc: "Automated customer insights, lead scoring, and predictive behavior analysis." 
-              },
-              { 
-                icon: <CreditCard className="w-10 h-10" />, 
-                title: "Commerce", 
-                desc: "High-speed transactional processing built for omnichannel retail environments." 
-              },
-              { 
-                icon: <TrendingUp className="w-10 h-10" />, 
-                title: "Finance", 
-                desc: "Precision accounting with real-time ledgers and automated compliance reporting." 
-              }
-            ].map((service, idx) => (
-              <div key={idx} className="border-4 border-black p-8 shadow-neo hover:shadow-[12px_12px_0px_0px_#0057d9] transition-all hover:-translate-y-2 bg-white group cursor-pointer flex flex-col h-full">
-                <div className="mb-6 p-4 border-2 border-black inline-block bg-scptric-blue text-white group-hover:bg-black group-hover:text-white transition-colors">
-                  {service.icon}
-                </div>
-                <h3 className="text-2xl font-bold uppercase mb-4">{service.title}</h3>
-                <p className="text-lg font-medium leading-relaxed opacity-80 flex-grow">{service.desc}</p>
-                <div className="mt-6 flex justify-end">
-                  <div className="w-8 h-8 bg-black"></div>
-                </div>
+      <main id="main" tabIndex={-1}>
+        <section id="home" className="hero" aria-labelledby="hero-title">
+          <div className="container hero-grid">
+            <div className="hero-copy">
+              <p className="eyebrow">
+                <span className="blue-square" /> Systems. Software. Data.
+              </p>
+              <h1 id="hero-title">
+                Complex work.
+                <br />
+                Clear systems.
+                <br />
+                <span className="highlight">Built for you.</span>
+              </h1>
+              <p className="hero-description">
+                We design and build the software that helps your business work
+                better—connecting operations, applications, and data.
+              </p>
+              <div className="hero-actions">
+                <a className="button" href="#contact">
+                  Discuss your project{" "}
+                  <ArrowUpRight size={20} aria-hidden="true" />
+                </a>
+                <a className="text-link" href="#solutions">
+                  Explore our capabilities{" "}
+                  <ArrowDown size={17} aria-hidden="true" />
+                </a>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Products Section - Added scroll-mt-28 for nav offset */}
-      <section id="products" className="py-24 bg-scptric-black relative border-y-2 border-white scroll-mt-28">
-         {/* Background pattern */}
-         <div className="absolute inset-0 opacity-10" style={{backgroundImage: 'radial-gradient(#0057d9 1px, transparent 1px)', backgroundSize: '20px 20px'}}></div>
-         
-         <div className="container mx-auto px-4 relative z-10">
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-2 border-2 border-scptric-blue px-4 py-1 rounded-full mb-4">
-                <div className="w-2 h-2 bg-scptric-blue rounded-full"></div>
-                <span className="text-scptric-blue font-bold uppercase text-sm">Available Now</span>
-              </div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase mb-6">Our Product Suite</h2>
-              <p className="text-gray-400 max-w-2xl mx-auto text-xl">Complete software packages ready to deploy for your enterprise.</p>
+              <p className="hero-note">
+                Custom development. Considered architecture. Practical outcomes.
+              </p>
             </div>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Product 1: ERP */}
-              <div className="border-2 border-white bg-black p-8 hover:border-scptric-blue transition-colors relative group flex flex-col">
-                 <div className="absolute top-0 right-0 p-2 bg-white text-black font-bold text-xs border-l-2 border-b-2 border-black z-10">v4.2.0</div>
-                 <div className="mb-6 text-scptric-blue">
-                   <Server className="w-12 h-12" />
-                 </div>
-                 <h3 className="text-3xl font-bold uppercase mb-2">Scptric ERP</h3>
-                 <p className="text-gray-400 mb-8">Total resource management for complex industrial operations.</p>
-                 <ul className="space-y-3 mb-8 text-sm border-t border-gray-800 pt-6 flex-grow">
-                   <li className="flex items-center gap-2"><Check className="w-4 h-4 text-scptric-blue" /> Multi-Warehouse Sync</li>
-                   <li className="flex items-center gap-2"><Check className="w-4 h-4 text-scptric-blue" /> Automated Procurement</li>
-                   <li className="flex items-center gap-2"><Check className="w-4 h-4 text-scptric-blue" /> HR & Payroll Module</li>
-                 </ul>
-                 <NeoButton className="w-full mt-auto">View Specs</NeoButton>
+            <div
+              className="system-visual"
+              role="img"
+              aria-label="Our engineering approach connects business workflows, software applications, and data into one coherent system."
+            >
+              <div className="visual-topline">
+                <span>THE CONNECTED PICTURE</span>
+                <span>01 / 03</span>
               </div>
-
-              {/* Product 2: CRM */}
-              <div className="border-2 border-white bg-black p-8 hover:border-scptric-blue transition-colors relative group shadow-neo-white transform lg:-translate-y-4 flex flex-col">
-                 <div className="absolute top-0 right-0 p-2 bg-scptric-blue text-white font-bold text-xs border-l-2 border-b-2 border-white z-10">BESTSELLER</div>
-                 <div className="mb-6 text-white">
-                   <Users className="w-12 h-12" />
-                 </div>
-                 <h3 className="text-3xl font-bold uppercase mb-2">Nexus CRM</h3>
-                 <p className="text-gray-400 mb-8">Customer intelligence platform driven by behavioral data.</p>
-                 <ul className="space-y-3 mb-8 text-sm border-t border-gray-800 pt-6 flex-grow">
-                   <li className="flex items-center gap-2"><Check className="w-4 h-4 text-scptric-blue" /> Pipeline Automation</li>
-                   <li className="flex items-center gap-2"><Check className="w-4 h-4 text-scptric-blue" /> Email Marketing Integration</li>
-                   <li className="flex items-center gap-2"><Check className="w-4 h-4 text-scptric-blue" /> AI Lead Scoring</li>
-                 </ul>
-                 <NeoButton variant="primary" className="w-full mt-auto">Start Trial</NeoButton>
-              </div>
-
-              {/* Product 3: POS */}
-              <div className="border-2 border-white bg-black p-8 hover:border-scptric-blue transition-colors relative group flex flex-col">
-                 <div className="absolute top-0 right-0 p-2 bg-white text-black font-bold text-xs border-l-2 border-b-2 border-black z-10">v2.1.5</div>
-                 <div className="mb-6 text-scptric-blue">
-                   <Box className="w-12 h-12" />
-                 </div>
-                 <h3 className="text-3xl font-bold uppercase mb-2">PointMax POS</h3>
-                 <p className="text-gray-400 mb-8">High-velocity transaction terminal for retail and hospitality.</p>
-                 <ul className="space-y-3 mb-8 text-sm border-t border-gray-800 pt-6 flex-grow">
-                   <li className="flex items-center gap-2"><Check className="w-4 h-4 text-scptric-blue" /> Offline Capability</li>
-                   <li className="flex items-center gap-2"><Check className="w-4 h-4 text-scptric-blue" /> Real-time Inventory</li>
-                   <li className="flex items-center gap-2"><Check className="w-4 h-4 text-scptric-blue" /> Hardware Agnostic</li>
-                 </ul>
-                 <NeoButton className="w-full mt-auto">Get Demo</NeoButton>
-              </div>
-            </div>
-         </div>
-      </section>
-
-      {/* Partners Section - Added scroll-mt-28 for nav offset */}
-      <section id="partners" className="py-20 bg-white text-black border-b-2 border-white scroll-mt-28">
-         <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row items-center justify-between mb-12">
-               <h2 className="text-3xl md:text-4xl font-bold uppercase">Trusted By Industry Leaders</h2>
-               <p className="text-lg font-medium mt-4 md:mt-0">Powering systems for 500+ companies.</p>
-            </div>
-            
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-               {['GOOGLE', 'MICROSOFT', 'SHOPIFY', 'STRIPE', 'AMAZON', 'ORACLE'].map((partner, idx) => (
-                  <div key={idx} className="h-24 border-2 border-black flex items-center justify-center font-bold text-xl md:text-2xl tracking-tighter hover:bg-black hover:text-white transition-all cursor-default select-none shadow-neo-hover">
-                     {partner}
+              <div className="visual-stack">
+                <div className="system-layer">
+                  <div className="layer-icon">
+                    <Workflow />
                   </div>
-               ))}
-            </div>
-         </div>
-      </section>
-
-      {/* Stats / Social Proof */}
-      <section className="py-20 bg-scptric-blue border-b-2 border-white text-white">
-        <div className="container mx-auto px-4">
-           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-             {[
-               { label: "Uptime Guarantee", val: "99.99%" },
-               { label: "Enterprise Clients", val: "500+" },
-               { label: "Daily Transactions", val: "2.4M" },
-               { label: "Custom Modules", val: "150+" },
-             ].map((stat, idx) => (
-               <div key={idx} className="border-2 border-white p-6 hover:bg-white hover:text-scptric-blue transition-colors cursor-default">
-                 <div className="text-3xl md:text-4xl lg:text-5xl font-bold mb-2">{stat.val}</div>
-                 <div className="text-xs md:text-sm font-bold uppercase tracking-widest">{stat.label}</div>
-               </div>
-             ))}
-           </div>
-        </div>
-      </section>
-
-      {/* About / Feature Split - Added scroll-mt-28 for nav offset */}
-      <section id="about" className="grid grid-cols-1 md:grid-cols-2 min-h-[600px] scroll-mt-28">
-        <div className="bg-white text-black p-12 md:p-14 lg:p-20 flex flex-col justify-center border-b-2 md:border-b-0 md:border-r-2 border-white">
-          <Layers className="w-16 h-16 mb-8 text-scptric-blue" />
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase mb-8">Software Architecture</h2>
-          <p className="text-xl font-medium mb-8">
-            We don't rely on bloated templates. Scptric builds lean, modular, and scalable software tailored to your specific operational workflows. Our systems grow as you grow.
-          </p>
-          <ul className="space-y-4 font-bold">
-            <li className="flex items-center gap-3">
-              <div className="w-4 h-4 bg-scptric-blue"></div> API-First Design
-            </li>
-            <li className="flex items-center gap-3">
-              <div className="w-4 h-4 bg-scptric-blue"></div> Cloud-Native Deployment
-            </li>
-            <li className="flex items-center gap-3">
-              <div className="w-4 h-4 bg-scptric-blue"></div> Real-Time Analytics
-            </li>
-          </ul>
-        </div>
-        <div className="bg-[#111] text-white p-12 md:p-14 lg:p-20 flex flex-col justify-center relative overflow-hidden">
-           <div className="absolute top-0 right-0 w-64 h-64 bg-scptric-blue opacity-20 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
-           <div className="relative z-10">
-             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase mb-8">Clean Code Protocol</h2>
-             <p className="text-xl text-gray-300 mb-10">
-               Inefficiency is a bug. We write software that optimizes your business logic, eliminating redundancy and accelerating decision-making.
-             </p>
-             <div className="p-6 border-2 border-white bg-black/50 backdrop-blur-sm">
-              <code className="font-mono text-green-400 text-sm block mb-2">
-                &gt; compiling_modules... <br />
-                &gt; erp_core: integrated <br />
-                &gt; crm_sync: active <br />
-                &gt; deployment: success
-              </code>
-                <div className="h-2 w-full bg-gray-800 mt-4 overflow-hidden">
-                  <div className="h-full bg-white w-2/3 animate-pulse"></div>
+                  <div>
+                    <span className="micro-label">THE WAY YOU WORK</span>
+                    <strong>Business systems</strong>
+                  </div>
+                  <span className="layer-index">01</span>
                 </div>
-             </div>
-           </div>
-        </div>
-      </section>
-
-      {/* CTA / Footer */}
-      <footer className="bg-scptric-black border-t-2 border-white pt-20 pb-10">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row justify-between items-start mb-16">
-            <div className="mb-10 lg:mb-0">
-              <h2 className="text-5xl font-bold uppercase mb-6">Ready to<br/>Scale Up?</h2>
-              <NeoButton className="text-xl px-10 py-4" onClick={() => window.location.href = 'mailto:sales@scptric.dev'}>Request Demo</NeoButton>
-            </div>
-            
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12 text-lg">
-              <div>
-                <h4 className="font-bold uppercase text-scptric-blue mb-4">Products</h4>
-                <ul className="space-y-2">
-                  <li><a href="#products" className="hover:text-scptric-blue hover:underline decoration-2 underline-offset-4">ERP Suite</a></li>
-                  <li><a href="#products" className="hover:text-scptric-blue hover:underline decoration-2 underline-offset-4">CRM Cloud</a></li>
-                  <li><a href="#products" className="hover:text-scptric-blue hover:underline decoration-2 underline-offset-4">Retail POS</a></li>
-                </ul>
+                <div className="layer-connector">
+                  <span /> Define. Connect. Automate.
+                </div>
+                <div className="system-layer featured-layer">
+                  <div className="layer-icon">
+                    <Code2 />
+                  </div>
+                  <div>
+                    <span className="micro-label">THE TOOLS YOU USE</span>
+                    <strong>Purpose-built software</strong>
+                  </div>
+                  <span className="layer-index">02</span>
+                </div>
+                <div className="layer-connector">
+                  <span /> Collect. Structure. Understand.
+                </div>
+                <div className="system-layer">
+                  <div className="layer-icon">
+                    <Database />
+                  </div>
+                  <div>
+                    <span className="micro-label">
+                      THE INFORMATION YOU NEED
+                    </span>
+                    <strong>Connected data</strong>
+                  </div>
+                  <span className="layer-index">03</span>
+                </div>
               </div>
-              <div>
-                <h4 className="font-bold uppercase text-scptric-blue mb-4">Support</h4>
-                <ul className="space-y-2">
-                  <li><a href="#" className="hover:text-scptric-blue hover:underline decoration-2 underline-offset-4">Documentation</a></li>
-                  <li><a href="#" className="hover:text-scptric-blue hover:underline decoration-2 underline-offset-4">API Status</a></li>
-                  <li><a href="mailto:support@scptric.dev" className="hover:text-scptric-blue hover:underline decoration-2 underline-offset-4">Contact Us</a></li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-bold uppercase text-scptric-blue mb-4">Socials</h4>
-                <ul className="space-y-2">
-                  <li><a href="https://x.com/scptric" target="_blank" rel="noopener noreferrer" className="hover:text-scptric-blue hover:underline decoration-2 underline-offset-4">X / Twitter</a></li>
-                  <li><a href="https://instagram.com/scptric" target="_blank" rel="noopener noreferrer" className="hover:text-scptric-blue hover:underline decoration-2 underline-offset-4">Instagram</a></li>
-                  <li><a href="https://facebook.com/scptric" target="_blank" rel="noopener noreferrer" className="hover:text-scptric-blue hover:underline decoration-2 underline-offset-4">Facebook</a></li>
-                  <li><a href="https://linkedin.com/company/scptric" target="_blank" rel="noopener noreferrer" className="hover:text-scptric-blue hover:underline decoration-2 underline-offset-4">LinkedIn</a></li>
-                </ul>
+              <div className="visual-bottomline">
+                <span className="blue-square" /> Separate disciplines. One
+                coherent system.
+                <ArrowUpRight size={18} />
               </div>
             </div>
           </div>
-          
-          <div className="border-t-2 border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
-             <p>&copy; 2025 SCPTRIC SOFTWARE INC. ALL RIGHTS RESERVED.</p>
-             <div className="flex gap-4 mt-4 md:mt-0 font-mono">
-               <span>BUILD: STABLE</span>
-               <span>REGION: GLOBAL</span>
-             </div>
+          <div className="container hero-bottom">
+            <span>ENGINEERING WITH PURPOSE</span>
+            <a href="#solutions">
+              Discover Scptric <ArrowDown size={14} aria-hidden="true" />
+            </a>
+          </div>
+        </section>
+        <section
+          id="solutions"
+          className="section light-section"
+          aria-labelledby="capabilities-title"
+        >
+          <div className="container">
+            <div className="section-heading">
+              <div>
+                <p className="eyebrow">01 / What we do</p>
+                <h2 id="capabilities-title">
+                  Built around
+                  <br />
+                  your business.
+                </h2>
+              </div>
+              <p>
+                From a single workflow to an entire platform, we bring systems
+                thinking to every layer of your technology.
+              </p>
+            </div>
+            <div className="capability-grid">
+              {capabilities.map(
+                ({ icon: Icon, title, description, items, number }) => (
+                  <article className="capability-card" key={title}>
+                    <div className="card-top">
+                      <Icon size={29} aria-hidden="true" />
+                      <span>{number}</span>
+                    </div>
+                    <h3>{title}</h3>
+                    <p>{description}</p>
+                    <ul>
+                      {items.map((item) => (
+                        <li key={item}>
+                          <Plus size={14} aria-hidden="true" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+                ),
+              )}
+            </div>
+            <div className="section-footnote">
+              <span>
+                Have an existing system that needs a better next chapter?
+              </span>
+              <a className="text-link" href="#contact">
+                Let’s look at it together{" "}
+                <ArrowUpRight size={17} aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+        </section>
+        <section
+          id="products"
+          className="section projects-section"
+          aria-labelledby="projects-title"
+        >
+          <div className="container">
+            <div className="section-heading">
+              <div>
+                <p className="eyebrow">02 / The Scptric portfolio</p>
+                <h2 id="projects-title">
+                  One company.
+                  <br />
+                  Distinct systems.
+                </h2>
+              </div>
+              <p>
+                Alongside our development services, we’re building a portfolio
+                of dedicated systems. Each project has its own purpose and
+                identity under Scptric.
+              </p>
+            </div>
+            <div className="project-grid">
+              <article className="project-card qimah-card">
+                <div className="project-top qimah-top">
+                  <span className="project-type">SCPTRIC / PRODUCT INCUBATOR</span>
+                  <span className="status qimah-status">
+                    <span className="qimah-status-dot" /> In development
+                  </span>
+                </div>
+                <div className="project-art qimah-art" aria-hidden="true">
+                  <div className="qimah-symbol">
+                    <QimahIcon size={64} />
+                  </div>
+                  <div className="qimah-art-text">
+                    <span className="art-caption">
+                      YOUR ASSETS.
+                      <br />A CLEARER PICTURE.
+                    </span>
+                    <div className="qimah-asset-tags">
+                      <span>PROPERTY</span>
+                      <span>EQUITIES</span>
+                      <span>CASH</span>
+                      <span>METALS</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="project-content">
+                  <div className="qimah-brand-header">
+                    <h3 className="qimah-title">
+                      Qimah{" "}
+                      <span lang="ar" dir="rtl" className="qimah-arabic-name">
+                        قيمة
+                      </span>
+                    </h3>
+                    <span className="qimah-category-badge">Asset OS</span>
+                  </div>
+                  <p>
+                    A personal asset management system that brings property,
+                    investments, cash, precious metals, and liabilities into one
+                    cohesive view of your net worth and financial position.
+                  </p>
+                  <div className="qimah-allocation-preview" aria-hidden="true">
+                    <div className="qimah-allocation-head">
+                      <span>PORTFOLIO ALLOCATION</span>
+                      <span>NET WORTH PREVIEW</span>
+                    </div>
+                    <div className="qimah-allocation-track">
+                      <span
+                        className="qimah-seg qimah-seg-property"
+                        style={{ flex: 50 }}
+                        title="Property (50%)"
+                      />
+                      <span
+                        className="qimah-seg qimah-seg-equities"
+                        style={{ flex: 25 }}
+                        title="Equities (25%)"
+                      />
+                      <span
+                        className="qimah-seg qimah-seg-cash"
+                        style={{ flex: 15 }}
+                        title="Cash (15%)"
+                      />
+                      <span
+                        className="qimah-seg qimah-seg-metals"
+                        style={{ flex: 10 }}
+                        title="Metals (10%)"
+                      />
+                    </div>
+                    <div className="qimah-allocation-legend">
+                      <span>Property 50%</span>
+                      <span>Equities 25%</span>
+                      <span>Cash 15%</span>
+                      <span>Metals 10%</span>
+                    </div>
+                  </div>
+                  <div className="project-footer qimah-footer">
+                    <span>
+                      A distinct Scptric product. Public release to be
+                      announced.
+                    </span>
+                    <ArrowUpRight
+                      size={20}
+                      className="qimah-footer-arrow"
+                      aria-hidden="true"
+                    />
+                  </div>
+                </div>
+              </article>
+              <article className="project-card print-card">
+                <div className="project-top">
+                  <span className="project-type">SCPTRIC / PRINT SYSTEM</span>
+                  <span className="status">
+                    <span /> Future project
+                  </span>
+                </div>
+                <div className="project-art" aria-hidden="true">
+                  <div className="print-symbol">
+                    <Printer size={64} strokeWidth={1.25} />
+                  </div>
+                  <span className="art-caption">
+                    A DEDICATED SPACE
+                    <br />
+                    FOR PRINT OPERATIONS.
+                  </span>
+                </div>
+                <div className="project-content">
+                  <h3>Print shop management</h3>
+                  <p>
+                    A separate system for managing print shop operations,
+                    planned for a later stage of Scptric’s product development.
+                  </p>
+                  <div className="project-footer">
+                    <span>Scope and timeline are yet to be announced.</span>
+                    <Printer size={21} aria-hidden="true" />
+                  </div>
+                </div>
+              </article>
+            </div>
+            <p className="roadmap-note">
+              These systems are not yet available for public purchase or trial.
+              Follow @scptric for future updates.
+            </p>
+          </div>
+        </section>
+        <section
+          id="approach"
+          className="section light-section"
+          aria-labelledby="approach-title"
+        >
+          <div className="container">
+            <div className="section-heading">
+              <div>
+                <p className="eyebrow">03 / How we work</p>
+                <h2 id="approach-title">
+                  Clarity first.
+                  <br />
+                  Then code.
+                </h2>
+              </div>
+              <p>
+                A useful system starts with a shared understanding. Our approach
+                keeps the problem, the priorities, and the next step in view.
+              </p>
+            </div>
+            <ol className="process-grid">
+              {steps.map(([title, description], index) => (
+                <li key={title}>
+                  <div className="step-number">
+                    0{index + 1}
+                    <ArrowRight size={20} aria-hidden="true" />
+                  </div>
+                  <h3>{title}</h3>
+                  <p>{description}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+        <section
+          id="about"
+          className="section about-section"
+          aria-labelledby="about-title"
+        >
+          <div className="container about-grid">
+            <div>
+              <p className="eyebrow">04 / Meet Scptric</p>
+              <h2 id="about-title">
+                Good engineering.
+                <br />
+                <span className="muted-heading">Real purpose.</span>
+              </h2>
+              <p className="about-intro">
+                Scptric is a technology startup focused on systems development,
+                software engineering, and data engineering.
+              </p>
+              <p>
+                We build around a simple idea: technology should make complex
+                work easier to understand and manage. That means looking at the
+                whole system—the people using it, the processes behind it, and
+                the data moving through it.
+              </p>
+              <a className="text-link" href="#contact">
+                Tell us what you’re working on{" "}
+                <ArrowUpRight size={18} aria-hidden="true" />
+              </a>
+            </div>
+            <div className="principles">
+              <p className="micro-label">WHAT GUIDES THE WORK</p>
+              {[
+                [
+                  "Purpose before complexity",
+                  "Choose the tools and architecture that fit the problem.",
+                ],
+                [
+                  "Connected by design",
+                  "Think about how applications, workflows, and data work together.",
+                ],
+                [
+                  "Built to be understood",
+                  "Value clear code, useful documentation, and maintainable systems.",
+                ],
+              ].map(([title, description]) => (
+                <div className="principle" key={title}>
+                  <Check size={20} aria-hidden="true" />
+                  <div>
+                    <h3>{title}</h3>
+                    <p>{description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+        <section className="section faq-section" aria-labelledby="faq-title">
+          <div className="container faq-grid">
+            <div>
+              <p className="eyebrow">A few useful details</p>
+              <h2 id="faq-title">
+                Before we
+                <br />
+                get started.
+              </h2>
+            </div>
+            <div className="faq-list">
+              {[
+                [
+                  "Can you work with our existing software?",
+                  "Yes. A project can focus on integrating tools, improving an existing application, or replacing a workflow that no longer works. We start by understanding what you have and what needs to change.",
+                ],
+                [
+                  "Are Qimah and the print shop system available?",
+                  "Not yet. Qimah is a personal asset management system in development as a distinct Scptric project. The print shop management system is a separate future project. Public launch dates have not been announced.",
+                ],
+                [
+                  "What should we include in a project inquiry?",
+                  "Tell us what your business does, the problem you want to solve, and who will use the system. If you have existing tools, a target timeline, or a budget range, those are helpful too. An initial idea is enough to start a conversation.",
+                ],
+              ].map(([question, answer]) => (
+                <details key={question}>
+                  <summary>
+                    {question}
+                    <Plus size={19} aria-hidden="true" />
+                  </summary>
+                  <p>{answer}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+        <section
+          id="contact"
+          className="contact-section"
+          aria-labelledby="contact-title"
+        >
+          <div className="container contact-grid">
+            <div>
+              <p className="eyebrow">Let’s build something useful</p>
+              <h2 id="contact-title">
+                What needs to
+                <br />
+                work better?
+              </h2>
+              <p>
+                A new idea, a disconnected workflow, or a system you’ve
+                outgrown. Tell us where you are and where you want to go.
+              </p>
+              <a className="button button-white" href={contactHref}>
+                Discuss your project{" "}
+                <ArrowUpRight size={20} aria-hidden="true" />
+              </a>
+            </div>
+            <div className="contact-card">
+              <span className="micro-label">START A CONVERSATION</span>
+              <a className="email-link" href={contactHref}>
+                {email}
+                <ArrowUpRight size={21} aria-hidden="true" />
+              </a>
+              <p>
+                Share the problem, the people it affects, and what a better
+                outcome would look like.
+              </p>
+              <div className="contact-card-bottom">
+                <span>Prefer to use your own email app?</span>
+                <button type="button" onClick={copyEmail}>
+                  Copy email address
+                </button>
+              </div>
+              <span role="status" className="copy-status">
+                {copyStatus}
+              </span>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer className="site-footer">
+        <div className="container">
+          <div className="footer-main">
+            <div className="footer-brand">
+              <a href="#home" aria-label="Scptric home">
+                <img
+                  className="logo"
+                  src={logo}
+                  alt="Scptric"
+                  width="170"
+                  height="36"
+                />
+              </a>
+              <p>
+                Systems, software, and data.
+                <br />
+                Built with purpose.
+              </p>
+              <span className="social-handle">@scptric</span>
+            </div>
+            <nav aria-label="Footer navigation">
+              <span className="micro-label">EXPLORE</span>
+              {navigation.map(([label, id]) => (
+                <a key={id} href={`#${id}`}>
+                  {label}
+                </a>
+              ))}
+            </nav>
+            <nav aria-label="Social media">
+              <span className="micro-label">FOLLOW SCPTRIC</span>
+              {[
+                ["LinkedIn", "https://www.linkedin.com/company/scptric"],
+                ["X / Twitter", "https://x.com/scptric"],
+                ["Instagram", "https://www.instagram.com/scptric/"],
+                ["Facebook", "https://www.facebook.com/scptric"],
+              ].map(([label, url]) => (
+                <a
+                  key={label}
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {label}
+                  <ArrowUpRight size={14} aria-hidden="true" />
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              ))}
+            </nav>
+          </div>
+          <div className="footer-bottom">
+            <span>
+              © {new Date().getFullYear()} Scptric. All rights reserved.
+            </span>
+            <a href="#home">Back to top ↑</a>
           </div>
         </div>
       </footer>
-    </div>
+    </>
   );
 };
-
 export default App;
