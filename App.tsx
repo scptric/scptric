@@ -6,7 +6,11 @@ import {
   Check,
   Code2,
   Database,
+  Facebook,
+  Github,
+  Instagram,
   Layers3,
+  Linkedin,
   Menu,
   Plus,
   Printer,
@@ -18,6 +22,50 @@ import logo from "./assets/logo.svg?url";
 
 const email = "hello@scptric.com";
 const contactHref = `mailto:${email}?subject=Let%E2%80%99s%20build%20with%20Scptric`;
+
+const XSocialIcon: React.FC<{ size?: number; className?: string }> = ({
+  size = 15,
+  className = "",
+}) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+    aria-hidden="true"
+  >
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
+
+const socialLinks = [
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/company/scptric",
+    icon: Linkedin,
+  },
+  {
+    name: "X",
+    href: "https://x.com/scptric",
+    icon: XSocialIcon,
+  },
+  {
+    name: "Instagram",
+    href: "https://www.instagram.com/scptric/",
+    icon: Instagram,
+  },
+  {
+    name: "Facebook",
+    href: "https://www.facebook.com/scptric",
+    icon: Facebook,
+  },
+  {
+    name: "GitHub",
+    href: "https://github.com/scptric",
+    icon: Github,
+  },
+];
 const navigation = [
   ["Capabilities", "solutions"],
   ["Projects", "products"],
@@ -642,7 +690,7 @@ const App: React.FC = () => {
         <div className="container">
           <div className="footer-main">
             <div className="footer-brand">
-              <a href="#home" aria-label="Scptric home">
+              <a href="#home" aria-label="Scptric home" className="footer-logo-link">
                 <img
                   className="logo"
                   src={logo}
@@ -652,46 +700,65 @@ const App: React.FC = () => {
                 />
               </a>
               <p>
-                Systems, software, and data.
+                Systems, software, and data engineering.
                 <br />
-                Built with purpose.
+                Built with precision and purpose.
               </p>
-              <span className="social-handle">@scptric</span>
+              <div className="social-icons" aria-label="Social media">
+                {socialLinks.map(({ name, href, icon: Icon }) => (
+                  <a
+                    key={name}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="social-icon-btn"
+                    aria-label={`Scptric on ${name}`}
+                    title={name}
+                  >
+                    <Icon size={16} aria-hidden="true" />
+                  </a>
+                ))}
+              </div>
             </div>
-            <nav aria-label="Footer navigation">
+
+            <nav aria-label="Footer navigation" className="footer-nav">
               <span className="micro-label">EXPLORE</span>
               {navigation.map(([label, id]) => (
-                <a key={id} href={`#${id}`}>
+                <a key={id} href={`#${id}`} className="footer-nav-link">
                   {label}
                 </a>
               ))}
             </nav>
-            <nav aria-label="Social media">
-              <span className="micro-label">FOLLOW SCPTRIC</span>
-              {[
-                ["LinkedIn", "https://www.linkedin.com/company/scptric"],
-                ["X / Twitter", "https://x.com/scptric"],
-                ["Instagram", "https://www.instagram.com/scptric/"],
-                ["Facebook", "https://www.facebook.com/scptric"],
-              ].map(([label, url]) => (
-                <a
-                  key={label}
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {label}
-                  <ArrowUpRight size={14} aria-hidden="true" />
-                  <span className="sr-only"> (opens in a new tab)</span>
-                </a>
-              ))}
+
+            <nav aria-label="Capabilities navigation" className="footer-nav">
+              <span className="micro-label">CAPABILITIES</span>
+              <a href="#solutions" className="footer-nav-link">
+                Systems development
+              </a>
+              <a href="#solutions" className="footer-nav-link">
+                Software engineering
+              </a>
+              <a href="#solutions" className="footer-nav-link">
+                Data engineering
+              </a>
+              <a href="#approach" className="footer-nav-link">
+                Our approach
+              </a>
             </nav>
           </div>
+
           <div className="footer-bottom">
-            <span>
-              © {new Date().getFullYear()} Scptric. All rights reserved.
-            </span>
-            <a href="#home">Back to top ↑</a>
+            <div className="footer-bottom-info">
+              <span>
+                © {new Date().getFullYear()} Scptric. All rights reserved.
+              </span>
+              <span className="footer-dot-sep" aria-hidden="true">•</span>
+              <span className="footer-bottom-tagline">Smart Software Systems</span>
+            </div>
+            <a href="#home" className="back-to-top">
+              <span>Back to top</span>
+              <span className="back-to-top-arrow" aria-hidden="true">↑</span>
+            </a>
           </div>
         </div>
       </footer>
