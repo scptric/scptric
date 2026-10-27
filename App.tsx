@@ -68,9 +68,32 @@ const socialLinks = [
 ];
 const navigation = [
   ["Capabilities", "solutions"],
+  ["Partners", "partners"],
   ["Projects", "products"],
   ["Our approach", "approach"],
   ["Company", "about"],
+];
+const partners = [
+  {
+    name: "Cloudflare",
+    logo: "/partners/cloudflare.svg",
+  },
+  {
+    name: "GitHub",
+    logo: "/partners/github.svg",
+  },
+  {
+    name: "Google Analytics",
+    logo: "/partners/google-analytics.svg",
+  },
+  {
+    name: "Sanity",
+    logo: "/partners/sanity.svg",
+  },
+  {
+    name: "Stripe",
+    logo: "/partners/stripe.svg",
+  },
 ];
 const capabilities = [
   {
@@ -226,6 +249,21 @@ const App: React.FC = () => {
       </header>
       <main id="main" tabIndex={-1}>
         <section id="home" className="hero" aria-labelledby="hero-title">
+          <div className="hero-bg-media" aria-hidden="true">
+            <video
+              className="hero-bg-video"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              poster="/assets/bg-motion-poster.jpg"
+            >
+              <source src="/assets/bg-motion.webm" type="video/webm" />
+            </video>
+            <div className="hero-glass-overlay" />
+            <div className="hero-grid-pattern" />
+          </div>
           <div className="container hero-grid">
             <div className="hero-copy">
               <p className="eyebrow">
@@ -317,6 +355,40 @@ const App: React.FC = () => {
             <a href="#solutions">
               Discover Scptric <ArrowDown size={14} aria-hidden="true" />
             </a>
+          </div>
+        </section>
+        <section
+          id="partners"
+          className="partners-section"
+          aria-labelledby="partners-title"
+        >
+          <div className="container">
+            <div className="partners-header">
+              <div className="partners-title-group">
+                <p className="eyebrow">
+                  <span className="blue-square" /> Technology &amp; Integrations
+                </p>
+                <h2 id="partners-title" className="partners-heading">
+                  Integrated with industry leaders.
+                </h2>
+              </div>
+              <p className="partners-lead">
+                We engineer scalable solutions backed by proven edge, developer,
+                content, analytics, and payment platforms.
+              </p>
+            </div>
+            <div className="partners-grid">
+              {partners.map(({ name, logo: partnerLogo }) => (
+                <div key={name} className="partner-card" title={name}>
+                  <img
+                    src={partnerLogo}
+                    alt={name}
+                    className="partner-logo"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </section>
         <section

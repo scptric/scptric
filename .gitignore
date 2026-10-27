@@ -24,3 +24,4 @@ App(Final).tsx
 *.sln
 *.sw?
 .agents
+motion/
