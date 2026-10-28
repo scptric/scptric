@@ -13,11 +13,11 @@ import {
   Linkedin,
   Menu,
   Plus,
-  Printer,
   Workflow,
   X,
 } from "lucide-react";
 import { QimahIcon } from "./components/QimahLogo";
+import { ArssanIcon } from "./components/ArssanLogo";
 import logo from "./assets/logo.svg?url";
 
 const email = "hello@scptric.com";
@@ -492,12 +492,7 @@ const App: React.FC = () => {
                 </div>
                 <div className="project-content">
                   <div className="qimah-brand-header">
-                    <h3 className="qimah-title">
-                      Qimah{" "}
-                      <span lang="ar" dir="rtl" className="qimah-arabic-name">
-                        قيمة
-                      </span>
-                    </h3>
+                    <h3 className="qimah-title">Qimah</h3>
                     <span className="qimah-category-badge">Asset OS</span>
                   </div>
                   <p>
@@ -552,39 +547,96 @@ const App: React.FC = () => {
                   </div>
                 </div>
               </article>
-              <article className="project-card print-card">
-                <div className="project-top">
-                  <span className="project-type">SCPTRIC / PRINT SYSTEM</span>
-                  <span className="status">
-                    <span /> Future project
+              <article className="project-card arssan-card">
+                <div className="project-top arssan-top">
+                  <span className="project-type">SCPTRIC / WEB DEVELOPMENT ARM</span>
+                  <span className="status arssan-status">
+                    <span className="arssan-status-dot" /> Active arm
                   </span>
                 </div>
-                <div className="project-art" aria-hidden="true">
-                  <div className="print-symbol">
-                    <Printer size={64} strokeWidth={1.25} />
+                <div className="project-art arssan-art" aria-hidden="true">
+                  <div className="arssan-symbol">
+                    <ArssanIcon size={68} />
                   </div>
-                  <span className="art-caption">
-                    A DEDICATED SPACE
-                    <br />
-                    FOR PRINT OPERATIONS.
-                  </span>
+                  <div className="arssan-art-text">
+                    <span className="art-caption">
+                      DESIGNING CALM
+                      <br />
+                      DIGITAL EXCELLENCE.
+                    </span>
+                    <div className="arssan-service-tags">
+                      <span>NEXT.JS 16</span>
+                      <span>UI/UX SYSTEMS</span>
+                      <span>AGENT READY</span>
+                      <span>BILINGUAL</span>
+                    </div>
+                  </div>
                 </div>
                 <div className="project-content">
-                  <h3>Print shop management</h3>
-                  <p>
-                    A separate system for managing print shop operations,
-                    planned for a later stage of Scptric’s product development.
-                  </p>
-                  <div className="project-footer">
-                    <span>Scope and timeline are yet to be announced.</span>
-                    <Printer size={21} aria-hidden="true" />
+                  <div className="arssan-brand-header">
+                    <h3 className="arssan-title">Arssan</h3>
+                    <span className="arssan-category-badge">Web Studio</span>
                   </div>
+                  <p>
+                    The specialized web design and digital engineering arm of
+                    Scptric, crafting high-performance bilingual websites,
+                    bespoke platforms, and calm user experiences.
+                  </p>
+                  <div className="arssan-stack-preview" aria-hidden="true">
+                    <div className="arssan-stack-head">
+                      <span>DIGITAL ARCHITECTURE STACK</span>
+                      <span>CORE WEB VITALS 99+</span>
+                    </div>
+                    <div className="arssan-stack-track">
+                      <span
+                        className="arssan-seg arssan-seg-ux"
+                        style={{ flex: 35 }}
+                        title="UI/UX Architecture (35%)"
+                      />
+                      <span
+                        className="arssan-seg arssan-seg-nextjs"
+                        style={{ flex: 35 }}
+                        title="Next.js Full-Stack (35%)"
+                      />
+                      <span
+                        className="arssan-seg arssan-seg-cloud"
+                        style={{ flex: 15 }}
+                        title="Edge Cloud & CMS (15%)"
+                      />
+                      <span
+                        className="arssan-seg arssan-seg-agent"
+                        style={{ flex: 15 }}
+                        title="Agent Ready & SEO (15%)"
+                      />
+                    </div>
+                    <div className="arssan-stack-legend">
+                      <span>UI/UX Systems</span>
+                      <span>Next.js 16</span>
+                      <span>Edge Cloud</span>
+                      <span>Agent Ready</span>
+                    </div>
+                  </div>
+                  <a
+                    href="https://arssan.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="project-footer arssan-footer"
+                    aria-label="Visit Arssan web development arm at arssan.com"
+                  >
+                    <span>
+                      Specialized web development arm. Visit arssan.com
+                    </span>
+                    <ArrowUpRight
+                      size={20}
+                      className="arssan-footer-arrow"
+                      aria-hidden="true"
+                    />
+                  </a>
                 </div>
               </article>
             </div>
             <p className="roadmap-note">
-              These systems are not yet available for public purchase or trial.
-              Follow @scptric for future updates.
+              Arssan is open for bespoke web engagements and digital platform builds. Qimah remains in focused internal development. Follow @scptric for updates.
             </p>
           </div>
         </section>
@@ -694,8 +746,8 @@ const App: React.FC = () => {
                   "Yes. A project can focus on integrating tools, improving an existing application, or replacing a workflow that no longer works. We start by understanding what you have and what needs to change.",
                 ],
                 [
-                  "Are Qimah and the print shop system available?",
-                  "Not yet. Qimah is a personal asset management system in development as a distinct Scptric project. The print shop management system is a separate future project. Public launch dates have not been announced.",
+                  "How do Arssan and Qimah fit into Scptric?",
+                  "Arssan is Scptric’s specialized web development arm, actively partnering with businesses to engineer high-performance websites and modern digital platforms. Qimah is our proprietary personal asset management operating system currently in focused development as a distinct incubator product.",
                 ],
                 [
                   "What should we include in a project inquiry?",

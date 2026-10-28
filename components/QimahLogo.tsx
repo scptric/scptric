@@ -70,7 +70,7 @@ export const QimahWordmark: React.FC<QimahWordmarkProps> = ({
       height={height}
       fill="currentColor"
       className={`qimah-wordmark-svg ${className}`}
-      aria-label="Qimah - قيمة"
+      aria-label="Qimah Wordmark"
       {...props}
     >
       <g>
@@ -84,7 +84,7 @@ export const QimahWordmark: React.FC<QimahWordmarkProps> = ({
           <rect x="422.36" y="184.96" width="11.7" height="63.91" />
           <polygon points="422.36 173.76 423.11 174.51 433.31 174.51 434.07 173.76 434.07 160.01 422.36 160.01 422.36 173.76" />
         </g>
-        {/* Arabic Calligraphy: قيمة */}
+        {/* Arabic Calligraphy Marks */}
         <g className="qimah-arabic-calligraphy">
           <path d="M350.69,29.67c2.13,0,4.65-1.36,6.01-2.71,1.55-1.75,2.52-3.88,2.52-6.01,0-2.52-.97-4.46-2.52-6.21-1.36-1.75-3.88-2.33-6.01-2.33-5.04,0-8.53,3.49-8.53,8.53,0,4.46,3.88,8.73,8.53,8.73Z" />
           <path d="M372.99,29.67c2.13,0,4.65-1.36,6.01-2.71,1.55-1.75,2.52-3.88,2.52-6.01,0-2.52-.97-4.46-2.52-6.21-1.36-1.75-3.88-2.33-6.01-2.33-5.04,0-8.53,3.49-8.53,8.53,0,4.46,3.88,8.73,8.53,8.73Z" />
