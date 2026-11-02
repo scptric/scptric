@@ -19,6 +19,16 @@ import {
 import { QimahIcon } from "./components/QimahLogo";
 import { ArssanIcon } from "./components/ArssanLogo";
 import logo from "./assets/logo.svg?url";
+import {
+  trackCapabilityClick,
+  trackContactIntent,
+  trackFaqToggle,
+  trackNavigationClick,
+  trackProductClick,
+  trackProductView,
+  trackSectionView,
+  trackSocialClick,
+} from "./analytics";
 
 const email = "hello@scptric.com";
 const contactHref = `mailto:${email}?subject=Let%E2%80%99s%20build%20with%20Scptric`;
@@ -174,7 +184,54 @@ const App: React.FC = () => {
       desktop.removeEventListener("change", closeOnDesktop);
     };
   }, [isMenuOpen]);
+
+  // Track section impressions and product card views as visitors scroll
+  useEffect(() => {
+    const viewedElements = new Set<string>();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            const product = entry.target.getAttribute("data-track-product");
+
+            if (product && !viewedElements.has(`product-${product}`)) {
+              viewedElements.add(`product-${product}`);
+              trackProductView(
+                product as "Arssan" | "Qimah",
+                product === "Arssan" ? "Web Studio" : "Asset OS"
+              );
+            } else if (id && !viewedElements.has(`section-${id}`)) {
+              viewedElements.add(`section-${id}`);
+              const sectionNames: Record<string, string> = {
+                home: "Hero / Introduction",
+                solutions: "Capabilities",
+                partners: "Technology Partners",
+                products: "Portfolio (Arssan & Qimah)",
+                approach: "Delivery Approach",
+                about: "Company Principles & FAQ",
+                contact: "Contact & Inquiries",
+              };
+              trackSectionView(id, sectionNames[id] || id);
+            }
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    const sections = document.querySelectorAll("section[id]");
+    const productCards = document.querySelectorAll("[data-track-product]");
+
+    sections.forEach((sec) => observer.observe(sec));
+    productCards.forEach((card) => observer.observe(card));
+
+    return () => observer.disconnect();
+  }, []);
+
   const copyEmail = async () => {
+    trackContactIntent("copy_email", "contact_section");
     try {
       await navigator.clipboard.writeText(email);
       setCopyStatus("Email address copied.");
@@ -205,12 +262,22 @@ const App: React.FC = () => {
           </a>
           <nav aria-label="Main navigation" className="desktop-nav">
             {navigation.map(([label, id]) => (
-              <a key={id} href={`#${id}`}>
+              <a
+                key={id}
+                href={`#${id}`}
+                onClick={() => trackNavigationClick(label, id, "header_desktop")}
+              >
                 {label}
               </a>
             ))}
           </nav>
-          <a className="button button-small header-cta" href="#contact">
+          <a
+            className="button button-small header-cta"
+            href="#contact"
+            onClick={() =>
+              trackNavigationClick("Let’s talk", "contact", "header_desktop")
+            }
+          >
             Let’s talk <ArrowUpRight size={16} aria-hidden="true" />
           </a>
           <button
@@ -236,12 +303,25 @@ const App: React.FC = () => {
           hidden={!isMenuOpen}
         >
           {navigation.map(([label, id]) => (
-            <a key={id} href={`#${id}`} onClick={() => setIsMenuOpen(false)}>
+            <a
+              key={id}
+              href={`#${id}`}
+              onClick={() => {
+                trackNavigationClick(label, id, "header_mobile");
+                setIsMenuOpen(false);
+              }}
+            >
               {label}
               <ArrowUpRight size={18} aria-hidden="true" />
             </a>
           ))}
-          <a href="#contact" onClick={() => setIsMenuOpen(false)}>
+          <a
+            href="#contact"
+            onClick={() => {
+              trackNavigationClick("Let’s talk", "contact", "header_mobile");
+              setIsMenuOpen(false);
+            }}
+          >
             Let’s talk
             <ArrowUpRight size={18} aria-hidden="true" />
           </a>
@@ -281,11 +361,27 @@ const App: React.FC = () => {
                 better—connecting operations, applications, and data.
               </p>
               <div className="hero-actions">
-                <a className="button" href="#contact">
+                <a
+                  className="button"
+                  href="#contact"
+                  onClick={() =>
+                    trackNavigationClick("Discuss your project", "contact", "hero")
+                  }
+                >
                   Discuss your project{" "}
                   <ArrowUpRight size={20} aria-hidden="true" />
                 </a>
-                <a className="text-link" href="#solutions">
+                <a
+                  className="text-link"
+                  href="#solutions"
+                  onClick={() =>
+                    trackNavigationClick(
+                      "Explore our capabilities",
+                      "solutions",
+                      "hero"
+                    )
+                  }
+                >
                   Explore our capabilities{" "}
                   <ArrowDown size={17} aria-hidden="true" />
                 </a>
@@ -414,7 +510,11 @@ const App: React.FC = () => {
             <div className="capability-grid">
               {capabilities.map(
                 ({ icon: Icon, title, description, items, number }) => (
-                  <article className="capability-card" key={title}>
+                  <article
+                    className="capability-card"
+                    key={title}
+                    onClick={() => trackCapabilityClick(number, title)}
+                  >
                     <div className="card-top">
                       <Icon size={29} aria-hidden="true" />
                       <span>{number}</span>
@@ -466,7 +566,11 @@ const App: React.FC = () => {
               </p>
             </div>
             <div className="project-grid">
-              <article className="project-card qimah-card">
+              <article
+                className="project-card qimah-card"
+                data-track-product="Qimah"
+                onClick={() => trackProductClick("Qimah", "card_click")}
+              >
                 <div className="project-top qimah-top">
                   <span className="project-type">SCPTRIC / PRODUCT INCUBATOR</span>
                   <span className="status qimah-status">
@@ -547,7 +651,11 @@ const App: React.FC = () => {
                   </div>
                 </div>
               </article>
-              <article className="project-card arssan-card">
+              <article
+                className="project-card arssan-card"
+                data-track-product="Arssan"
+                onClick={() => trackProductClick("Arssan", "card_click")}
+              >
                 <div className="project-top arssan-top">
                   <span className="project-type">SCPTRIC / WEB DEVELOPMENT ARM</span>
                   <span className="status arssan-status">
@@ -622,6 +730,14 @@ const App: React.FC = () => {
                     rel="noopener noreferrer"
                     className="project-footer arssan-footer"
                     aria-label="Visit Arssan web development arm at arssan.com"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      trackProductClick(
+                        "Arssan",
+                        "visit_website",
+                        "https://arssan.com"
+                      );
+                    }}
                   >
                     <span>
                       Specialized web development arm. Visit arssan.com
@@ -754,7 +870,15 @@ const App: React.FC = () => {
                   "Tell us what your business does, the problem you want to solve, and who will use the system. If you have existing tools, a target timeline, or a budget range, those are helpful too. An initial idea is enough to start a conversation.",
                 ],
               ].map(([question, answer]) => (
-                <details key={question}>
+                <details
+                  key={question}
+                  onToggle={(e) =>
+                    trackFaqToggle(
+                      question,
+                      (e.target as HTMLDetailsElement).open
+                    )
+                  }
+                >
                   <summary>
                     {question}
                     <Plus size={19} aria-hidden="true" />
@@ -782,14 +906,22 @@ const App: React.FC = () => {
                 A new idea, a disconnected workflow, or a system you’ve
                 outgrown. Tell us where you are and where you want to go.
               </p>
-              <a className="button button-white" href={contactHref}>
+              <a
+                className="button button-white"
+                href={contactHref}
+                onClick={() => trackContactIntent("mailto", "contact_section")}
+              >
                 Discuss your project{" "}
                 <ArrowUpRight size={20} aria-hidden="true" />
               </a>
             </div>
             <div className="contact-card">
               <span className="micro-label">START A CONVERSATION</span>
-              <a className="email-link" href={contactHref}>
+              <a
+                className="email-link"
+                href={contactHref}
+                onClick={() => trackContactIntent("mailto", "contact_card")}
+              >
                 {email}
                 <ArrowUpRight size={21} aria-hidden="true" />
               </a>
@@ -838,6 +970,7 @@ const App: React.FC = () => {
                     className="social-icon-btn"
                     aria-label={`Scptric on ${name}`}
                     title={name}
+                    onClick={() => trackSocialClick(name, href)}
                   >
                     <Icon size={16} aria-hidden="true" />
                   </a>
@@ -848,7 +981,12 @@ const App: React.FC = () => {
             <nav aria-label="Footer navigation" className="footer-nav">
               <span className="micro-label">EXPLORE</span>
               {navigation.map(([label, id]) => (
-                <a key={id} href={`#${id}`} className="footer-nav-link">
+                <a
+                  key={id}
+                  href={`#${id}`}
+                  className="footer-nav-link"
+                  onClick={() => trackNavigationClick(label, id, "footer")}
+                >
                   {label}
                 </a>
               ))}
