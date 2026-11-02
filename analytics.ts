@@ -13,19 +13,31 @@ declare global {
 export type EventParams = Record<string, string | number | boolean | undefined>;
 
 /**
- * Low-level event dispatcher that verifies gtag is ready.
+ * Low-level event dispatcher that sends events to GA4 (gtag) and GTM (dataLayer).
  */
 export function trackEvent(eventName: string, params?: EventParams): void {
-  if (typeof window !== "undefined" && typeof window.gtag === "function") {
-    const cleanParams: Record<string, string | number | boolean> = {};
-    if (params) {
-      for (const [key, value] of Object.entries(params)) {
-        if (value !== undefined && value !== null) {
-          cleanParams[key] = value;
-        }
+  if (typeof window === "undefined") return;
+
+  const cleanParams: Record<string, string | number | boolean> = {};
+  if (params) {
+    for (const [key, value] of Object.entries(params)) {
+      if (value !== undefined && value !== null) {
+        cleanParams[key] = value;
       }
     }
+  }
+
+  // Dispatch to Google Analytics 4 (gtag)
+  if (typeof window.gtag === "function") {
     window.gtag("event", eventName, cleanParams);
+  }
+
+  // Push to Google Tag Manager dataLayer for custom event triggers
+  if (Array.isArray(window.dataLayer)) {
+    window.dataLayer.push({
+      event: eventName,
+      ...cleanParams,
+    });
   }
 }
 

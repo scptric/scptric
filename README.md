@@ -9,6 +9,20 @@ Scptric’s marketing website for scptric.com, built with React, TypeScript, Vit
 - `npm run build` — production files in `dist`
 - `npx tsc --noEmit` — TypeScript validation
 
+## Environment Configuration
+
+Copy `.env.example` to `.env` to configure analytics and tag management:
+
+```env
+# Google Analytics 4 Measurement ID
+VITE_GA_MEASUREMENT_ID=G-PK6Y7LHCD2
+
+# Google Tag Manager Container ID
+VITE_GTM_ID=GTM-P6CQ2TGK
+```
+
+Both IDs are injected into HTML templates at build time via Vite's `envPrefix` configuration. Custom interactions in `analytics.ts` dispatch simultaneously to `gtag` and GTM's `window.dataLayer`.
+
 ## Content
 
 The page covers:
