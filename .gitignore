@@ -12,6 +12,9 @@ dist
 dist-ssr
 App(Final).tsx
 *.local
+.env
+.env.*
+!.env.example
 
 # Editor directories and files
 .vscode/*

@@ -5,7 +5,7 @@ Scptric’s marketing website for scptric.com, built with React, TypeScript, Vit
 ## Development
 
 - `npm install`
-- `npm run dev` — local preview at http://localhost:3000
+- `npm run dev` — local preview at http://localhost:3001
 - `npm run build` — production files in `dist`
 - `npx tsc --noEmit` — TypeScript validation
 
